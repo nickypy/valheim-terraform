@@ -11,10 +11,15 @@ provider "digitalocean" {}
 
 data "digitalocean_ssh_keys" "keys" {}
 
+variable "region" {
+  type    = string
+  default = "sfo3"
+}
+
 resource "digitalocean_droplet" "valheim_server" {
   image    = "docker-20-04"
   name     = "valheim-server"
-  region   = "sfo3"
+  region   = var.region
   size     = "s-2vcpu-4gb-amd"
   ssh_keys = toset([for k in data.digitalocean_ssh_keys.keys.ssh_keys : k.fingerprint])
 }
@@ -25,6 +30,15 @@ resource "null_resource" "bootstrap" {
   }
 }
 
+resource "digitalocean_reserved_ip" "valheim_ip" {
+  region = var.region
+}
+
+resource "digitalocean_reserved_ip_assignment" "valheim_ip" {
+  droplet_id = digitalocean_droplet.valheim_server.id
+  ip_address = digitalocean_reserved_ip.valheim_ip.ip_address
+}
+
 output "ip_address" {
-  value = digitalocean_droplet.valheim_server.ipv4_address
+  value = digitalocean_reserved_ip.valheim_ip.ip_address
 }
