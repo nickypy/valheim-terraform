@@ -23,11 +23,12 @@ variable "droplet_size" {
 }
 
 resource "digitalocean_droplet" "valheim_server" {
-  image    = "docker-20-04"
-  name     = "valheim-server"
-  region   = var.region
-  size     = var.droplet_size
-  ssh_keys = toset([for k in data.digitalocean_ssh_keys.keys.ssh_keys : k.fingerprint])
+  image      = "docker-20-04"
+  name       = "valheim-server"
+  monitoring = true
+  region     = var.region
+  size       = var.droplet_size
+  ssh_keys   = toset([for k in data.digitalocean_ssh_keys.keys.ssh_keys : k.fingerprint])
 }
 
 resource "null_resource" "bootstrap" {
