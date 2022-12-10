@@ -16,11 +16,16 @@ variable "region" {
   default = "sfo3"
 }
 
+variable "droplet_size" {
+  type    = string
+  default = "s-2vcpu-4gb-amd"
+}
+
 resource "digitalocean_droplet" "valheim_server" {
   image    = "docker-20-04"
   name     = "valheim-server"
   region   = var.region
-  size     = "s-2vcpu-4gb-amd"
+  size     = var.droplet_size
   ssh_keys = toset([for k in data.digitalocean_ssh_keys.keys.ssh_keys : k.fingerprint])
 }
 

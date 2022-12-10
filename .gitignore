@@ -2,3 +2,4 @@
 .terraform*
 server/valheim.env
 terraform.tfstate*
+main.auto.tfvars
