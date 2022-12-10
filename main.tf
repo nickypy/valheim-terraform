@@ -17,8 +17,9 @@ variable "region" {
 }
 
 variable "droplet_size" {
-  type    = string
-  default = "s-2vcpu-4gb-amd"
+  type        = string
+  description = "The droplet size's slug"
+  default     = "s-2vcpu-4gb-amd"
 }
 
 resource "digitalocean_droplet" "valheim_server" {

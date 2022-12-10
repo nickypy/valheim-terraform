@@ -12,4 +12,16 @@ Create a Valheim config. Make sure to update the file to your preferences:
 cp ./server/valheim.sample.env ./server/valheim.env
 ```
 
-Then run `terraform apply`. You'll need to type "yes" when SSHing into your droplet for the first time.
+### Variables
+* `region` - For best performance, select one that is physically closest to you.
+* `droplet_size` - This is the `slug` property coming from the API. The default is set based on this [recommendation](https://github.com/lloesche/valheim-server-docker#system-requirements).
+
+A full list of slugs are available from the `/v2/sizes` API:
+```
+curl -XGET \
+  -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
+  "https://api.digitalocean.com/v2/sizes?per_page=100"
+```
+
+
+Finally, run `terraform apply`. You'll need to type "yes" when SSHing into your droplet for the first time.
